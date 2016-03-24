@@ -173,10 +173,42 @@ def get_minibatch(doc_iter, size, pos_class):
     data = [(u'{title}\n\n{body}'.format(**doc), pos_class in doc['topics'])
             for doc in itertools.islice(doc_iter, size)
             if doc['topics']]
+
+    # If there's no data, just return empty lists.    
     if not len(data):
-        return np.asarray([], dtype=int), np.asarray([], dtype=int)
+        return np.asarray([], dtype=int), np.asarray([], dtype=int).tolist()
+    
+    # Otherwise, retrieve the articles and class labels.
     X_text, y = zip(*data)
-    return X_text, np.asarray(y, dtype=int)
+    
+    # Convert X_text from a tuple to a list.
+    X_text = list(X_text)    
+    
+    # Convert the class labels to a list.
+    y = np.asarray(y, dtype=int).tolist()    
+    
+    # For some reason, some of these articles are just whitespace. Look for 
+    # these and remove them. 
+    toRemove = []
+    docNum = 0
+    
+    # For each article...
+    for article in X_text:
+        # If the article is just whitespace, or is empty, we'll remove it        
+        if article.isspace() or (article == ""):
+            toRemove.append(docNum)
+            
+        docNum += 1
+    
+    # Remove the empty articles. Do this in reverse order so as not to corrupt
+    # the indeces as we go.
+    toRemove.reverse()
+    for i in toRemove:
+        del X_text[i]
+        del y[i]
+    
+    return X_text, y
+
 
 
 def iter_minibatches(doc_iter, minibatch_size):
@@ -200,17 +232,14 @@ data_stream = stream_reuters_documents()
 # examples.
 positive_class = 'acq'
 
-# Retrieve the 1,000 examples from the dataset to use as the test set, then 
-# another 1,000 examples to use as the training set. The actual number will
+# Retrieve 1,000 examples from the dataset to use as the training set, then 
+# another 1,000 examples to use as the test set. The actual number will
 # be smaller because it will exclude "invalid docs with no topics assigned".
-X_test_text, y_test = get_minibatch(data_stream, 1000, positive_class)
-X_train_text, y_train = get_minibatch(data_stream, 1000, positive_class)
+X_train_raw, y_train_raw = get_minibatch(data_stream, 1000, positive_class)
+X_test_raw, y_test_raw = get_minibatch(data_stream, 1000, positive_class)
 
-print("Test set is %d documents (%d positive)" % (len(y_test), sum(y_test)))
-print("Train set is %d documents (%d positive)" % (len(y_train), sum(y_train)))
+print("Train set is %d documents (%d positive)" % (len(y_train_raw), sum(y_train_raw)))
+print("Test set is %d documents (%d positive)" % (len(y_test_raw), sum(y_test_raw)))
 
-# Dump the dataset to pickle files.
-pickle.dump(X_test_text, open("X_test_text.p", "wb"))
-pickle.dump(y_test, open("y_test.p", "wb"))
-pickle.dump(X_train_text, open("X_train_text.p", "wb"))
-pickle.dump(y_train, open("y_train.p", "wb"))
+# Dump the dataset to a pickle file.
+pickle.dump((X_train_raw, y_train_raw, X_test_raw, y_test_raw), open("data/raw_text_dataset.pickle", "wb"))
