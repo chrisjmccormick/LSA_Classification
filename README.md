@@ -4,7 +4,7 @@ text classification exercise, and comparing the accuracy of the results to
 Latent Semantic Analysis (LSA).
 
 Scripts
-=======
+-------
 <table>
 <tr><td>getReutersTextArticles.py</td><td>Pulls down the raw text dataset to experiment with. The dataset is then written to data/raw_text_dataset.pickle</td></tr>
 <tr><td>getFingerprints.py</td><td>Uses the REST interface to the Cortical.io Retina API to calculate fingerprints for the text articles. The fingerprinted dataset is then written to data/fingerprint_dataset.pickle</td></tr>
