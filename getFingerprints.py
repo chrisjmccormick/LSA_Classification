@@ -129,4 +129,4 @@ print("Time to get all fingerprints: ", vectorizing_time)
 pickle.dump((X_train_raw, y_train_raw, X_test_raw, y_test_raw), open("data/raw_text_dataset_filtered.pickle", "wb"))
 
 # Dump the calculated fingerprints to a pickle file.
-pickle.dump((X_train_fp, y_train_fp, X_test_fp, y_test_fp), open("data/fingperint_dataset.pickle", "wb"))
+pickle.dump((X_train_fp, y_train_fp, X_test_fp, y_test_fp), open("data/fingerprint_dataset.pickle", "wb"))
