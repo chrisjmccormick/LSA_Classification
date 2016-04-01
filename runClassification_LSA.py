@@ -25,7 +25,7 @@ print("Loading dataset...")
 # (X_train_raw, y_train_raw, X_test_raw, y_test)
 # The 'filtered' dataset excludes any articles that we failed to retrieve
 # fingerprints for.
-raw_text_dataset = pickle.load( open( "data/raw_text_dataset_filtered.pickle", "rb" ) )
+raw_text_dataset = pickle.load( open( "data/raw_text_dataset.pickle", "rb" ) )
 X_train_raw = raw_text_dataset[0]
 y_train = raw_text_dataset[1] 
 X_test_raw = raw_text_dataset[2]
@@ -54,6 +54,8 @@ vectorizer = TfidfVectorizer(max_df=0.5, max_features=10000,
 # Build the tfidf vectorizer from the training data ("fit"), and apply it 
 # ("transform").
 X_train_tfidf = vectorizer.fit_transform(X_train_raw)
+
+print("  Actual number of tfidf features: %d" % X_train_tfidf.get_shape()[1])
 
 print("\nPerforming dimensionality reduction using LSA")
 t0 = time.time()

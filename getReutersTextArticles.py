@@ -235,8 +235,8 @@ positive_class = 'acq'
 # Retrieve 1,000 examples from the dataset to use as the training set, then 
 # another 1,000 examples to use as the test set. The actual number will
 # be smaller because it will exclude "invalid docs with no topics assigned".
-X_train_raw, y_train_raw = get_minibatch(data_stream, 1000, positive_class)
-X_test_raw, y_test_raw = get_minibatch(data_stream, 1000, positive_class)
+X_train_raw, y_train_raw = get_minibatch(data_stream, 5000, positive_class)
+X_test_raw, y_test_raw = get_minibatch(data_stream, 5000, positive_class)
 
 print("Train set is %d documents (%d positive)" % (len(y_train_raw), sum(y_train_raw)))
 print("Test set is %d documents (%d positive)" % (len(y_test_raw), sum(y_test_raw)))
