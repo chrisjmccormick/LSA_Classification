@@ -170,7 +170,7 @@ def get_minibatch(doc_iter, size, pos_class):
     Note: size is before excluding invalid docs with no topics assigned.
 
     """
-    data = [(u'{title}\n\n{body}'.format(**doc), pos_class in doc['topics'])
+    data = [(u'{title}\n\n{body}'.format(**doc), doc['topics'])
             for doc in itertools.islice(doc_iter, size)
             if doc['topics']]
 
@@ -178,14 +178,16 @@ def get_minibatch(doc_iter, size, pos_class):
     if not len(data):
         return np.asarray([], dtype=int), np.asarray([], dtype=int).tolist()
     
-    # Otherwise, retrieve the articles and class labels.
+    # Otherwise, retrieve the articles and class labels. zip just splits apart
+    # the two variables.
     X_text, y = zip(*data)
-    
-    # Convert X_text from a tuple to a list.
+
+    # Convert X_text and y from tuples to lists.    
     X_text = list(X_text)    
+    y = list(y)
     
     # Convert the class labels to a list.
-    y = np.asarray(y, dtype=int).tolist()    
+    #y = np.asarray(y, dtype=int).tolist()    
     
     # For some reason, some of these articles are just whitespace. Look for 
     # these and remove them. 
@@ -232,14 +234,14 @@ data_stream = stream_reuters_documents()
 # examples.
 positive_class = 'acq'
 
-# Retrieve 1,000 examples from the dataset to use as the training set, then 
-# another 1,000 examples to use as the test set. The actual number will
+# Retrieve a set of examples from the dataset to use as the training set, then 
+# another set of examples to use as the test set. The actual number will
 # be smaller because it will exclude "invalid docs with no topics assigned".
 X_train_raw, y_train_raw = get_minibatch(data_stream, 5000, positive_class)
 X_test_raw, y_test_raw = get_minibatch(data_stream, 5000, positive_class)
 
-print("Train set is %d documents (%d positive)" % (len(y_train_raw), sum(y_train_raw)))
-print("Test set is %d documents (%d positive)" % (len(y_test_raw), sum(y_test_raw)))
+print("Train set is %d documents" % (len(y_train_raw)))
+print("Test set is %d documents" % (len(y_test_raw)))
 
 # Dump the dataset to a pickle file.
 pickle.dump((X_train_raw, y_train_raw, X_test_raw, y_test_raw), open("data/raw_text_dataset.pickle", "wb"))
