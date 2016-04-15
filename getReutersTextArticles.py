@@ -8,7 +8,6 @@ plot_out_of_core_classification.py for retrieving the Reuters dataset.
 
 The dataset used in this example is Reuters-21578 as provided by the UCI ML
 repository. It will be automatically downloaded and uncompressed on first run.
-
 """
 
 # Authors: Eustache Diemert <eustache@diemert.fr>

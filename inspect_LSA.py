@@ -14,7 +14,6 @@ some insight into how they work.
 import pickle
 import time
 import numpy
-import random
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
@@ -22,6 +21,8 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import Normalizer
 
 from pylab import *
+
+import random
 
 ###############################################################################
 #  Load the raw text dataset.
@@ -65,7 +66,7 @@ feat_names = vectorizer.get_feature_names()
 # Print ten random terms from the vocabulary
 print("Some random words in the vocabulary:")
 for i in range(0, 10):
-    featNum = randint(0, len(feat_names))
+    featNum = random.randint(0, len(feat_names))
     print("  %s" % feat_names[featNum])
     
 print("\nPerforming dimensionality reduction using LSA")

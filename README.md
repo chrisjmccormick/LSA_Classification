@@ -1,14 +1,8 @@
-This is a simple text classification example using Latent Semantic Analysis 
-(LSA), written in Python and using the scikit-learn library. 
+This is a simple text classification example using Latent Semantic Analysis (LSA), written in Python and using the scikit-learn library. 
 
-LSA is also referred to as Latent Semantic Indexing (LSI).
+This code goes along with an LSA tutorial blog post I wrote [here](http://mccormickml.com/tutorials/2016/03/25/lsa-for-text-classification-tutorial/).
 
-
-
-Scripts
--------
-<table>
-<tr><td>getReutersTextArticles.py</td><td>Pulls down the raw text dataset to experiment with. The dataset is then written to data/raw_text_dataset.pickle</td></tr>
-<tr><td>runClassification_LSA.py</td><td>For a baseline accuracy comparison, uses LSA to vectorize the document, then runs k-NN classification.</td></tr>
-</table>
-
+Steps:
+1. [Optional]: Run `getReutersTextArticles.py` to download the Reuters dataset and extract the raw text. This step has already been performed for you, and the dataset is stored in the 'data' folder.
+2. Run `runClassification_LSA.py` to apply LSA to the dataset and then test classification accuracy.
+3. Run `inspect_LSA.py` to gain some insight into what LSA is doing.

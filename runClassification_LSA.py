@@ -1,8 +1,15 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
 """
-Created on Tue Sep 15 14:04:40 2015
+Run k-NN classification on the Reuters text dataset using LSA.
 
-@author: Chris
+This script leverages modules in scikit-learn for performing tf-idf and SVD.
+
+Classification is performed using k-NN with k=5 (majority wins).
+
+The script measures the accuracy of plain tf-idf as a baseline, then LSA to
+show the improvement.
+
+@author: Chris McCormick
 """
 
 import pickle
