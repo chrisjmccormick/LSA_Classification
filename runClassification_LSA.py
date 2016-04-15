@@ -27,10 +27,16 @@ print("Loading dataset...")
 # fingerprints for.
 raw_text_dataset = pickle.load( open( "data/raw_text_dataset.pickle", "rb" ) )
 X_train_raw = raw_text_dataset[0]
-y_train = raw_text_dataset[1] 
+y_train_labels = raw_text_dataset[1] 
 X_test_raw = raw_text_dataset[2]
-y_test = raw_text_dataset[3]
+y_test_labels = raw_text_dataset[3]
 
+# The Reuters dataset consists of ~100 categories. However, we are going to
+# simplify this to a binary classification problem. The 'positive class' will
+# be the articles related to "acquisitions" (or "acq" in the dataset). All
+# other articles will be negative.
+y_train = ["acq" in y for y in y_train_labels]
+y_test = ["acq" in y for y in y_test_labels]
 
 print("  %d training examples (%d positive)" % (len(y_train), sum(y_train)))
 print("  %d test examples (%d positive)" % (len(y_test), sum(y_test)))

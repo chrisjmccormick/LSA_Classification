@@ -1,13 +1,20 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
 """
-Created on Tue Sep 15 14:04:40 2015
+Perform some analysis on the top components of SVD.
 
-@author: Chris
+This script takes articles from the Reuters classification dataset, then
+applies LSA to them to create compact feature vectors.
+
+We look at some properties of these vectors and the SVD matrix in order to gain
+some insight into how they work.
+
+@author: Chris McCormick
 """
 
 import pickle
 import time
 import numpy
+import random
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
@@ -28,9 +35,8 @@ print("Loading dataset...")
 # fingerprints for.
 raw_text_dataset = pickle.load( open( "data/raw_text_dataset.pickle", "rb" ) )
 X_train_raw = raw_text_dataset[0]
-y_train = raw_text_dataset[1] 
 
-print("  %d training examples" % (len(y_train)))
+print("  %d training examples" % (len(X_train_raw)))
 
 ###############################################################################
 #  Use LSA to vectorize the articles.
@@ -56,10 +62,11 @@ print("  Actual number of tfidf features: %d" % X_train_tfidf.get_shape()[1])
 # Get the words that correspond to each of the features.
 feat_names = vectorizer.get_feature_names()
 
-# Print ten arbitrary feature names
-print("Some words in the vocabulary:")
-for i in range(1000, 1010):
-    print("  ", feat_names[i])
+# Print ten random terms from the vocabulary
+print("Some random words in the vocabulary:")
+for i in range(0, 10):
+    featNum = randint(0, len(feat_names))
+    print("  %s" % feat_names[featNum])
     
 print("\nPerforming dimensionality reduction using LSA")
 t0 = time.time()
@@ -75,7 +82,6 @@ X_train_lsa = lsa.fit_transform(X_train_tfidf)
 
 # The SVD matrix will have one row per component, and one column per feature
 # of the original data.
-# Get the first component.
 
 #for compNum in range(0, 100, 10):
 for compNum in range(0, 10):
@@ -97,7 +103,7 @@ for compNum in range(0, 10):
     # the order of the terms so the biggest one is on top.
     terms.reverse()
     weights.reverse()
-    positions = arange(10)+.5    # the bar centers on the y axis
+    positions = arange(10) + .5    # the bar centers on the y axis
     
     figure(compNum)
     barh(positions, weights, align='center')
@@ -107,9 +113,4 @@ for compNum in range(0, 10):
     grid(True)
     show()
 
-
-#print("  done in %.3fsec" % (time.time() - t0))
-
-explained_variance = svd.explained_variance_ratio_.sum()
-print("\nExplained variance of the SVD step: {}%".format(int(explained_variance * 100)))
 
