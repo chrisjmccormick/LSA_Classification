@@ -73,7 +73,7 @@ print("  Actual number of tfidf features: %d" % X_train_tfidf.get_shape()[1])
 print("\nPerforming dimensionality reduction using LSA")
 t0 = time.time()
 
-# Project the tfidf vectors onto the first 150 principal components.
+# Project the tfidf vectors onto the first N principal components.
 # Though this is significantly fewer features than the original tfidf vector,
 # they are stronger features, and the accuracy is higher.
 svd = TruncatedSVD(100)
