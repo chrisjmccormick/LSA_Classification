@@ -1,6 +1,6 @@
 This is a simple text classification example using Latent Semantic Analysis (LSA), written in Python and using the scikit-learn library. 
 
-This code goes along with an LSA tutorial blog post I wrote [here](http://mccormickml.com/tutorials/2016/03/25/lsa-for-text-classification-tutorial/).
+This code goes along with an LSA tutorial blog post I wrote [here](http://mccormickml.com/2016/03/25/lsa-for-text-classification-tutorial/).
 
 Steps:
 
